@@ -3,6 +3,7 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let app = express();
+var productoRoutes = require('./routes/productos');
 
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
@@ -14,6 +15,6 @@ app.use((req, res ,next) => {
 
   next();
 });
-//app.use('/api', productoRoutes);
+app.use('/api', productoRoutes);
 
 module.exports = app;
