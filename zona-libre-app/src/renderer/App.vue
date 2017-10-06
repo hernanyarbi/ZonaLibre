@@ -76,7 +76,7 @@
       </v-navigation-drawer>
       <v-footer :fixed="fixed">
         <v-spacer></v-spacer>
-        <span>&copy; 2017</span>
+        <span>&copy;HSoft 2017</span>
       </v-footer>
     </v-app>
   </div>
