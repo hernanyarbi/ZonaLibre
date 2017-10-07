@@ -5,6 +5,7 @@ let path = require('path');
 let mongoosePaginate = require('mongoose-pagination');
 let Producto = require('../models/productos');
 
+//Funcion de nuevo producto
 function newProducto(req, res){
   let producto = new Producto();
   let params = req.body;
@@ -27,6 +28,7 @@ function newProducto(req, res){
   });
 }
 
+//function para obtener productos
 function getProductos(req, res){
   Producto.find((err, productos)=>{
     if(err){
