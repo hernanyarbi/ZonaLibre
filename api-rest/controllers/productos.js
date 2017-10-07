@@ -2,7 +2,6 @@
 
 let fs = require('fs');
 let path = require('path');
-var bcrypt = require('bcrypt-nodejs');
 let mongoosePaginate = require('mongoose-pagination');
 let Producto = require('../models/productos');
 
