@@ -2,6 +2,7 @@
 
 let fs = require('fs');
 let path = require('path');
+var bcrypt = require('bcrypt-nodejs');
 let mongoosePaginate = require('mongoose-pagination');
 let Producto = require('../models/productos');
 
@@ -85,10 +86,59 @@ function deleteProducto(req, res){
   });
 }
 
+//Funcion para agregar imagen a producto
+function uploadImage(req, res){
+  var productoId = req.params.id;
+  var file_name = 'Sin Imagen';
+
+  if(req.files){
+    var file_path = req.files.files.path;
+    var file_split = file_path.split('\\');
+    var file_name = file_split[2];
+    var ext_split = file_name.split('\.');
+    var file_ext = ext_split[1];
+
+    if(file_ext == 'jpg' || file_ext == 'png' || file_ext == 'gif'){
+      Producto.findByIdAndUpdate(productoId , {
+        image : file_name
+      } , (err, productoUpdated) => {
+        if(err){
+          res.status(500).send({msg : 'Error al actualizar el imagen'});
+        }else{
+          if(!productoUpdated){
+            res.status(404).send({msg : 'No se ha podido actualizar el imagen'});
+          }else{
+            res.status(200).send({img : file_name, producto : productoUpdated});
+          }
+        }
+      })
+    }else{
+      res.status(200).send({msg : 'Extencion del archivo no valida'})
+    }
+  }else{
+    res.status(200).send({msg : 'No ha subido ninguna imagen'})
+  }
+}
+
+//function para obtener la imagen del productos
+function getImageFile(req, res){
+  var imageFile = req.params.imageFile;
+  var pathFile = './uploads/productos/'+imageFile;
+  fs.exists(pathFile , function(exists){
+    if(exists){
+      res.sendFile(path.resolve(pathFile));
+    }else{
+      res.status(404).send({msg: 'El archivo no fue encontrado'});
+    }
+  });
+}
+
 module.exports = {
   newProducto,
   getProductos,
   getProducto,
   updateProducto,
-  deleteProducto
+  deleteProducto,
+  uploadImage,
+  getImageFile
 }

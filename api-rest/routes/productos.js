@@ -12,4 +12,7 @@ api.get('/prod', ProductoCtrlr.getProductos);
 api.get('/prod/:id', ProductoCtrlr.getProducto);
 api.put('/prod/:id', ProductoCtrlr.updateProducto);
 api.delete('/prod/:id', ProductoCtrlr.deleteProducto);
+api.post('/prod-img/:id', md_upload, ProductoCtrlr.uploadImage);
+api.get('/get-image/:imageFile',ProductoCtrlr.getImageFile);
+
 module.exports = api;
